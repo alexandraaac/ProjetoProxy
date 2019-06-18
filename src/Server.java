@@ -43,7 +43,12 @@ public class Server extends Thread{
 	        	    toServer.writeBytes (ReqtoString());
         	   
             if(method.equals("GET")) { 
-
+            	Blocked site = new Blocked();
+            	
+            	if(site.isURLBlocked(URL) || site.isNAMEBlocked(URL)) {
+            		System.out.println("BLOQUEADO");
+            		
+            	}else {
         	    
         	    DataInputStream fromServer = new DataInputStream (server.getInputStream());
         	    
@@ -54,7 +59,8 @@ public class Server extends Thread{
 
             toClient.writeBytes (RestoString());
             toClient.write (body);
-
+            	}
+            	
              }else {
 
                  String ConnectResponse = "HTTP/1.0 200 Connection established\n" +
@@ -100,26 +106,7 @@ public class Server extends Thread{
     /** Return host for which this request is intended */
 
     
-    public boolean getMethod(BufferedReader fromServer) {
-    	String firstLine = "";
-
-		try
-	        {
-		    firstLine = fromServer.readLine();
-		}
-	        catch (IOException e)
-	        {
-		    System.out.println("Error reading request line: " + e);
-		}
-
-		tmp = firstLine.split(" ");
-		method = tmp [0];
-		if(method.equals("GET")) {
-			return true;
-		}
-
-		return false;
-    }
+   
 	public void readRequisicao (BufferedReader fromClient) {
 		{String firstLine = "";
 
