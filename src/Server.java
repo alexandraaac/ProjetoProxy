@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server extends Thread{
+public class Server extends Thread {
 	String firstLine = "";
 	String method = "";
 	String URL = "";
@@ -30,7 +30,7 @@ public class Server extends Thread{
 		
 	}
 	@SuppressWarnings("deprecation")
-	public void Handle(Socket client) throws IOException{
+	public void Handle(Socket client) throws IOException {
 		
 
 	    		 BufferedReader fromClient = new BufferedReader (new InputStreamReader (client.getInputStream()));
@@ -48,6 +48,7 @@ public class Server extends Thread{
             	if(site.isURLBlocked(URL) || site.isNAMEBlocked(URL)) {
             		System.out.println("BLOQUEADO");
             		
+            		
             	}else {
         	    
         	    DataInputStream fromServer = new DataInputStream (server.getInputStream());
@@ -59,6 +60,7 @@ public class Server extends Thread{
 
             toClient.writeBytes (RestoString());
             toClient.write (body);
+            
             	}
             	
              }else {
@@ -91,7 +93,8 @@ public class Server extends Thread{
                  toClient.close();
                }
             client.close();
-    		server.close();   
+     		server.close(); 
+             
              }
           
          

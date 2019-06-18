@@ -39,8 +39,13 @@ public class Main {
 	    try
             {
 		client = socket.accept();
-		Server server = new Server();
-		server.Handle(client);
+		
+		ProxyCacheThread request = new ProxyCacheThread(client);
+
+		// Criar uma  nova thread para processar a requisição.
+		Thread thread = new Thread(request);
+		//Iniciar a thread.
+		thread.start();
 		}
             catch (IOException e)
             {
@@ -66,4 +71,24 @@ public class Main {
 		    System.exit(-1);
 		}
 	    }
+	 
+}
+class ProxyCacheThread implements Runnable
+{
+	private Socket client = null;
+	
+	public ProxyCacheThread(Socket socket)
+	{
+		this.client = socket;
+	}
+	@Override
+	public void run() {
+		Server server = new Server(); 
+		try {
+			server.Handle(client);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
